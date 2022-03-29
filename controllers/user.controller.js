@@ -40,7 +40,7 @@ const login = async (req, res, next) => {
     return next(error);
   }
 
-  if (!existingUser.checkPassword(password)) {
+  if (!(await existingUser.checkPassword(password))) {
     let error = handleError(res, 401, "Invalid credentials!");
 
     return next(error);
