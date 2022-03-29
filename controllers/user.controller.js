@@ -18,7 +18,7 @@ const register = async (req, res, next) => {
     } else {
       // in other case some fields are empty so find costum message set on model
       let message = extractMessage(err);
-      let error = handleError(res, message ? 401 : 500, message || "Something went horribly wrong!"); // if something goes horribly wrong we can't do much about it
+      let error = handleError(res, message ? 400 : 500, message || "Something went horribly wrong!"); // if something goes horribly wrong we can't do much about it
 
       return next(error);
     }
