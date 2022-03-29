@@ -7,16 +7,16 @@ const User = new Schema({
 });
 
 User.methods.checkPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  let match = await bcrypt.compare(enteredPassword, this.password);
+
+  return match;
 };
 
-// hash password before user is saved
 User.pre("save", async function (next) {
-  if (!this.isModified) {
-    return next();
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 12);
   }
 
-  this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 
