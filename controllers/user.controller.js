@@ -28,7 +28,6 @@ const login = async (req, res, next) => {
   const { email, password } = req.body;
 
   // check data validity
-
   let existingUser = await User.findOne({ email: email });
 
   if (!existingUser) {
@@ -50,10 +49,10 @@ const login = async (req, res, next) => {
 };
 
 const changePassword = async (req, res, next) => {
-  /* const { userId } = req.userData; */ // pulled from token
-  const { email, newPassword } = req.body;
+  const { userId } = req.userData; // pulled from token
+  const { newPassword } = req.body;
 
-  let existingUser = await User.findOne({ email: email });
+  let existingUser = await User.findById(userId);
 
   existingUser.password = newPassword;
 
