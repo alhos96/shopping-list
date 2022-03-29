@@ -1,5 +1,5 @@
 const User = require("../models/user.model");
-const { handleError, generateToken } = require("../utils/helpers");
+const { handleError, generateToken, extractMessage } = require("../utils/helpers");
 
 const register = async (req, res, next) => {
   const { email, password } = req.body;
@@ -16,8 +16,9 @@ const register = async (req, res, next) => {
 
       return next(error);
     } else {
-      // in other case something else is wrong with mongo server
-      let error = handleError(res, 500, "Something went wrong!");
+      // in other case some fields are empty
+      let message = extractMessage(err);
+      let error = handleError(res, 401, message || "Something went horribly wrong!");
 
       return next(error);
     }
