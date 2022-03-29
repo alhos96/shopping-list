@@ -2,8 +2,8 @@ const bcrypt = require("bcrypt");
 const { Schema, model } = require("mongoose");
 
 const User = new Schema({
-  email: { type: String, unique: true },
-  password: String,
+  email: { type: String, unique: true, required: "You must enter email!" },
+  password: { type: String, required: "You must enter password!" },
 });
 
 User.methods.checkPassword = async function (enteredPassword) {
