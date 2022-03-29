@@ -52,4 +52,23 @@ const login = async (req, res, next) => {
   res.status(200).json({ token });
 };
 
-module.exports = { register, login };
+const changePassword = async (req, res, next) => {
+  /* const { userId } = req.userData; */ // pulled from token
+  const { email, newPassword } = req.body;
+
+  let existingUser = await User.findOne({ email: email });
+
+  existingUser.password = newPassword;
+
+  try {
+    await existingUser.save();
+  } catch (err) {
+    let error = handleError(res, 500, "Something went wrong!");
+    console.log(err);
+    return next(error);
+  }
+
+  res.status(200).json({ message: "Password changed successfuly!" });
+};
+
+module.exports = { register, login, changePassword };
