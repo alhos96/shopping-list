@@ -2,8 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const config = require("./config");
+const userRoutes = require("./routes/user.routes");
 
 const app = express();
+
+app.use("/user", userRoutes);
 
 mongoose
   .connect(config.mongo)
