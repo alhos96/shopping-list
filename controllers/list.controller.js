@@ -1,11 +1,11 @@
 const List = require("../models/list.model");
-const { handleError, extractMessage } = require("../utils/helpers");
+const { handleError, extractMessage, errorMessages, successMessages } = require("../utils/helpers");
 
 // error helper
 const listError = (err, res, next) => {
   if (err.code === 11000) {
     // list title must be unique so it caused this error
-    let error = handleError(res, 409, "List title must be unique! Try a different one.");
+    let error = handleError(res, 409, errorMessages.listNotUnique);
 
     return next(error);
   } else {
@@ -45,21 +45,21 @@ const update = async (req, res, next) => {
   try {
     existingList = await List.findById(listId);
   } catch (err) {
-    let error = handleError(res, 400, "Please make sure list ID is correct format!");
+    let error = handleError(res, 400, errorMessages.invalidId);
 
     return next(error);
   }
 
   // if list doesn't exist
   if (!existingList) {
-    let error = handleError(res, 404, "List you are trying to update is not found!");
+    let error = handleError(res, 404, errorMessages.listDoesntExist);
 
     return next(error);
   }
 
   // check is this user a creator of a list
   if (!existingList.isListCreator(userId)) {
-    let error = handleError(res, 401, "Seems like this is not your list!");
+    let error = handleError(res, 401, errorMessages.notListCreator);
 
     return next(error);
   }
@@ -70,7 +70,7 @@ const update = async (req, res, next) => {
   try {
     await existingList.save();
 
-    res.status(200).json({ message: "List updated successfuly!" });
+    res.status(200).json({ message: successMessages.listUpdated });
   } catch (err) {
     listError(err, res, next);
   }
@@ -86,21 +86,21 @@ const remove = async (req, res, next) => {
   try {
     existingList = await List.findById(listId);
   } catch (err) {
-    let error = handleError(res, 400, "Please make sure list ID is correct format!");
+    let error = handleError(res, 400, errorMessages.invalidId);
 
     return next(error);
   }
 
   // if list doesn't exist
   if (!existingList) {
-    let error = handleError(res, 404, "List you are trying to delete is not found!");
+    let error = handleError(res, 404, errorMessages.listDoesntExist);
 
     return next(error);
   }
 
   // check is this user a creator of a list
   if (!existingList.isListCreator(userId)) {
-    let error = handleError(res, 401, "Seems like this is not your list!");
+    let error = handleError(res, 401, errorMessages.notListCreator);
 
     return next(error);
   }
@@ -111,9 +111,9 @@ const remove = async (req, res, next) => {
   try {
     await List.deleteOne({ _id: listId });
 
-    res.status(200).json({ message: "List delted successfuly!" });
+    res.status(200).json({ message: successMessages.listDeleted });
   } catch (err) {
-    let error = handleError(res, 500, "Could not delete list!");
+    let error = handleError(res, 500, errorMessages.horribleError);
 
     return next(error);
   }

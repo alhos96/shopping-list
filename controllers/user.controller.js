@@ -1,5 +1,5 @@
 const User = require("../models/user.model");
-const { handleError, generateToken, extractMessage } = require("../utils/helpers");
+const { handleError, generateToken, extractMessage, errorMessages, successMessages } = require("../utils/helpers");
 
 const register = async (req, res, next) => {
   const { email, password } = req.body;
@@ -12,13 +12,13 @@ const register = async (req, res, next) => {
     // duplicate key error code.
     if (err.code === 11000) {
       // email must be unique so it caused this error
-      let error = handleError(res, 409, "User with that email already exists.");
+      let error = handleError(res, 409, errorMessages.emailNotUnique);
 
       return next(error);
     } else {
       // in other case some fields are empty so find costum message set on model
       let message = extractMessage(err);
-      let error = handleError(res, message ? 400 : 500, message || "Something went horribly wrong!"); // if something goes horribly wrong we can't do much about it
+      let error = handleError(res, message ? 400 : 500, message || errorMessages.horribleError); // if something goes horribly wrong we can't do much about it
 
       return next(error);
     }
@@ -32,13 +32,13 @@ const login = async (req, res, next) => {
   let existingUser = await User.findOne({ email: email });
 
   if (!existingUser) {
-    let error = handleError(res, 401, "User with that email doesn't exist.");
+    let error = handleError(res, 401, errorMessages.emailDoesntExist);
 
     return next(error);
   }
 
   if (!(await existingUser.checkPassword(password))) {
-    let error = handleError(res, 401, "Invalid credentials!");
+    let error = handleError(res, 401, errorMessages.invalidCredentials);
 
     return next(error);
   }
@@ -60,18 +60,18 @@ const changePassword = async (req, res, next) => {
   try {
     await existingUser.save();
 
-    res.status(200).json({ message: "Password changed successfuly!" });
+    res.status(200).json({ message: successMessages.paswordChanged });
   } catch (err) {
     // duplicate key error code.
     if (err.code === 11000) {
       // email must be unique so it caused this error
-      let error = handleError(res, 409, "User with that email already exists.");
+      let error = handleError(res, 409, errorMessages.emailNotUnique);
 
       return next(error);
     } else {
       // in other case some fields are empty so find costum message set on model
       let message = extractMessage(err);
-      let error = handleError(res, message ? 401 : 500, message || "Something went horribly wrong!"); // if something goes horribly wrong we can't do much about it
+      let error = handleError(res, message ? 401 : 500, message || errorMessages.horribleError); // if something goes horribly wrong we can't do much about it
 
       return next(error);
     }

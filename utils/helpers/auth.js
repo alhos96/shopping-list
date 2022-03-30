@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const handleError = require("./handleError");
+const { errorMessages } = require("./customMessages");
 const config = require("../../config");
 
 const auth = (req, res, next) => {
@@ -8,7 +9,7 @@ const auth = (req, res, next) => {
 
   if (!token) {
     // if token doesnt exist at all
-    let error = handleError(res, 401, "Authetnication failed!");
+    let error = handleError(res, 401, errorMessages.authFailed);
 
     return next(error);
   }
@@ -19,7 +20,7 @@ const auth = (req, res, next) => {
     // if token exists check its validity
     decodedToken = jwt.verify(token, config.secret);
   } catch (error) {
-    res.status(401).json({ error: { message: "Authentication failed!" } });
+    res.status(401).json({ error: { message: errorMessages.authFailed } });
 
     return next(error);
   }
