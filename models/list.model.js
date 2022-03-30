@@ -9,4 +9,9 @@ const List = new Schema(
   { timestamps: true }
 );
 
+List.methods.isListCreator = function (userId) {
+  // convert creator ObjectId type to string first
+  return this.creator.toString() === userId;
+};
+
 module.exports = model("List", List);
