@@ -107,8 +107,6 @@ const remove = async (req, res, next) => {
     return next(error);
   }
 
-  console.log(existingList.isListCreator(userId));
-
   // delete the list
   try {
     await List.deleteOne({ _id: listId });
