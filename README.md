@@ -1,5 +1,5 @@
 #### Shopping List
-The software system being produced is called Shopping List. It is application that allows customers to keep track of their shopping lists.
+The software system being produced is called Shopping List. It is application that allows users to keep track of their shopping lists.
 
 ### technologies
 This application is developed in nodejs with MongoDB. I have also used following packages:
@@ -22,22 +22,19 @@ User is able to:
  - request shopping report for certain period in time
 
 ### starting the application
-
-If you can't start the application you probably missed to check some of the checkboxes bellow.
-
-- [ ] After cloning repository please **add your own .env file** at the root folder with following variable: 
+- [x] After cloning repository please **add your own .env file** at the root folder with following variable: 
   - **PORT** = "example_of_format" - if not provided 5000 will be used
   - **MONGO_URI** = "example_of_format" - if not provided `mongodb://localhost:27017` will be used
   - **JWT_SECRET** = "example_of_format" - if not provided "shoppinglist" will be used
-- [ ] run `npm install` to install all the dependencies. 
-- [ ] run `npm start` script to start the application in the development mode on http://localhost:3000.. 
+- [x] run `npm install` to install all the dependencies. 
+- [x] run `npm start` script to start the application in the development mode on http://localhost:3000.. 
 
 
 ### using the application
+- [x] Open Postman or any other API testing application.
+- [x] Setup ` Contet-Type ` in Headers to ` application/json ` 
+- [x] Setup ` authorization ` in Headers containing token that you will get in response when loged in. 
 
-- [ ] Open Postman or any other API testing application.
-- [ ] Setup ` Contet-Type ` in Headers to ` application/json ` 
-- [ ] Setup ` authorization ` in Headers containing token that you will get in response when loged in. 
 
 ## user
 
