@@ -27,7 +27,7 @@ User is able to:
   - **MONGO_URI** = "example_of_format" - if not provided `mongodb://localhost:27017` will be used
   - **JWT_SECRET** = "example_of_format" - if not provided "shoppinglist" will be used
 - [x] run `npm install` to install all the dependencies. 
-- [x] run `npm start` script to start the application in the development mode on http://localhost:3000.. 
+- [x] run `npm start` script to start the application in the development mode on http://localhost:5000.. 
 
 
 ## using the application
