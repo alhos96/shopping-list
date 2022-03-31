@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 
-const handleError = require("./handleError");
-const { errorMessages } = require("./customMessages");
-const config = require("../../config");
+const handleError = require("./../helpers/handleError");
+const { errorMessages } = require("./../helpers/customMessages");
+const config = require("./../../config");
 
 const auth = (req, res, next) => {
   const token = req.headers.authorization;
