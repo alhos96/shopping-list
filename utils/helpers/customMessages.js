@@ -12,6 +12,7 @@ const errorMessages = {
   emailNotUnique: "User with that email already exists.",
   emailDoesntExist: "User with that email doesn't exist.",
   noEmail: "You must enter email!",
+  invalidEmail: "Please enter a valid email address.",
   noPassword: "You must enter password!",
   invalidCredentials: "Invalid credentials!",
 
