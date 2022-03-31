@@ -1,5 +1,5 @@
 const List = require("../models/list.model");
-const { handleError, extractMessage, errorMessages, successMessages } = require("../utils/helpers");
+const { handleError, extractMessage, errorMessages, successMessages, toObjectId } = require("../utils/helpers");
 
 // error helper
 const listError = (err, res, next) => {
@@ -45,6 +45,7 @@ const update = async (req, res, next) => {
   try {
     existingList = await List.findById(listId);
   } catch (err) {
+    // bad request - prevent app crash
     let error = handleError(res, 400, errorMessages.invalidId);
 
     return next(error);
@@ -64,6 +65,7 @@ const update = async (req, res, next) => {
     return next(error);
   }
 
+  // update data manualy because of validations
   existingList.title = title;
   existingList.groceries = groceries;
 
@@ -119,6 +121,48 @@ const remove = async (req, res, next) => {
   }
 };
 
-const getData = async (req, res, next) => {};
+const getData = async (req, res, next) => {
+  const { userId } = req.userData;
+  const { fromDate, toDate } = req.params; // string date to send as info in response
+  const { formatFrom, formatTo } = req.formatedDates; // Date object to compare with timestamps
+
+  let shoppingList;
+
+  try {
+    shoppingList = await List.aggregate([
+      {
+        // filter documents
+        $match: {
+          creator: toObjectId(userId),
+          updatedAt: { $gte: formatFrom, $lt: formatTo },
+        },
+      },
+
+      // remove all fields but groceries
+      { $project: { _id: 0, groceries: 1 } },
+
+      // combine in one array
+      { $unwind: "$groceries" },
+
+      // remove empty root folder
+      { $replaceRoot: { newRoot: "$groceries" } },
+
+      // group calculated in one list with root folder _id
+      {
+        $group: { _id: { product: "$product", amount: { $sum: "$amount" } } },
+      },
+
+      // remove unnecesery root folder on every element
+      { $replaceRoot: { newRoot: "$_id" } },
+    ]);
+
+    // send results with entered date range
+    res.status(200).json({ fromDate, toDate, shoppingList });
+  } catch (err) {
+    let error = handleError(res, 500, errorMessages.horribleError);
+
+    return next(error);
+  }
+};
 
 module.exports = { create, update, remove, getData };
