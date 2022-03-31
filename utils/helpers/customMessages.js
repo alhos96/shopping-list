@@ -17,6 +17,9 @@ const errorMessages = {
 
   // auth
   authFailed: "Authetnication failed!",
+
+  // dates
+  badDate: "Please enter correct date format: YYYY-MM-DD",
 };
 
 const successMessages = {
