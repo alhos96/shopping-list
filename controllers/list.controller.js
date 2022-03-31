@@ -121,7 +121,7 @@ const remove = async (req, res, next) => {
   }
 };
 
-const getData = async (req, res, next) => {
+const createReport = async (req, res, next) => {
   const { userId } = req.userData;
   const { fromDate, toDate } = req.params; // string date to send as info in response
   const { formatFrom, formatTo } = req.formatedDates; // Date object to compare with timestamps
@@ -165,4 +165,4 @@ const getData = async (req, res, next) => {
   }
 };
 
-module.exports = { create, update, remove, getData };
+module.exports = { create, update, remove, createReport };
