@@ -15,6 +15,9 @@ const errorMessages = {
   noPassword: "You must enter password!",
   invalidCredentials: "Invalid credentials!",
 
+  // report message
+  noLists: "There were no lists created in this period.",
+
   // auth
   authFailed: "Authetnication failed!",
 
@@ -26,6 +29,9 @@ const successMessages = {
   // list success
   listUpdated: "List updated successfuly!",
   listDeleted: "List deleted successfuly!",
+
+  // report message
+  listsFound: "Here you go.",
 
   // user success
   paswordChanged: "Password changed successfuly!",

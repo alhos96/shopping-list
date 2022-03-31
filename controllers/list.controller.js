@@ -154,8 +154,13 @@ const createReport = async (req, res, next) => {
       { $replaceRoot: { newRoot: "$_id" } },
     ]);
 
-    // send results with entered date range
-    res.status(200).json({ fromDate, toDate, shoppingList });
+    if (shoppingList.length === 0) {
+      // send results with costum message
+      res.status(200).json({ fromDate, toDate, shoppingList, message: errorMessages.noLists });
+    } else {
+      // send results with entered date range
+      res.status(200).json({ fromDate, toDate, shoppingList, message: successMessages.listsFound });
+    }
   } catch (err) {
     let error = handleError(res, 500, errorMessages.horribleError);
 
