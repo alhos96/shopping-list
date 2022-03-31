@@ -36,28 +36,28 @@ User is able to:
 - [x] Setup ` authorization ` in Headers containing token that you will get in response when loged in. 
 
 
-#### user
+### user
 
 ` {
   "email":"someone@someone.com",
   "password":"password123"
 } `
 
-**register** new user by sending ` POST ` request to ` http://localhost:5000/user/register `
-**login** with your credentials with ` POST ` request to ` http://localhost:5000/user/login `
-**change password** by sending ` PATCH ` request to ` http://localhost:5000/user `
+- **register** new user by sending ` POST ` request to ` http://localhost:5000/user/register `
+- **login** with your credentials with ` POST ` request to ` http://localhost:5000/user/login `
+- **change password** by sending ` PATCH ` request to ` http://localhost:5000/user `
 
 
-#### list 
+### list 
 
 ` {
     "title": "List title example",
     "groceries": [{"product":"milk", "amount":3}, {"product":"sugar", "amount":4}, {"product":"flour", "amount":1}]
 } `
 
-**create** new list by sending ` POST ` request to ` http://localhost:5000/list `
-**update** existing list with ` PATCH ` request to ` http://localhost:5000/list/:listId `
-**delete** existing list with ` DELTE ` request to ` http://localhost:5000/list/:listId `
-**get report** by sending ` GET ` request to ` http://localhost:5000/list/:fromDate/:toDate `
+- **create** new list by sending ` POST ` request to ` http://localhost:5000/list `
+- **update** existing list with ` PATCH ` request to ` http://localhost:5000/list/:listId `
+- **delete** existing list with ` DELTE ` request to ` http://localhost:5000/list/:listId `
+- **get report** by sending ` GET ` request to ` http://localhost:5000/list/:fromDate/:toDate `
 
 Have fun!
