@@ -29,6 +29,10 @@ User is able to:
 - [x] run `npm install` to install all the dependencies. 
 - [x] run `npm start` script to start the application in the development mode on http://localhost:5000.. 
 
+## starting application in docker container
+- [x] After cloning and setting up .env like instructed above, run ` docker build . -t shoppingList ` in terminal
+- [x] then ` docker run -p 5000:5000 -d shoppingList `
+
 
 ## using the application
 - [x] Open Postman or any other API testing application.
