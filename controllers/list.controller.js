@@ -1,5 +1,5 @@
 const List = require("../models/list.model");
-const { handleError, extractMessage, errorMessages, successMessages, toObjectId } = require("../utils/helpers");
+const { handleError, extractMessage, errorMessages, successMessages, toObjectId, formatDate } = require("../utils/helpers");
 
 // error helper
 const listError = (err, res, next) => {
@@ -121,8 +121,18 @@ const remove = async (req, res, next) => {
 
 const createReport = async (req, res, next) => {
   const { userId } = req.userData;
-  const { fromDate, toDate } = req.params; // string date to send as info in response
-  const { formatFrom, formatTo } = req.formatedDates; // Date object to compare with timestamps
+  const { fromDate, toDate } = req.params;
+
+  let formatedDates;
+
+  // format dates so they are comparable with mongo timestamps
+  try {
+    formatedDates = formatDate(fromDate, toDate);
+  } catch (err) {
+    let error = handleError(res, 500, err.message);
+
+    return next(error);
+  }
 
   let shoppingList;
 
@@ -132,7 +142,7 @@ const createReport = async (req, res, next) => {
         // filter documents
         $match: {
           creator: toObjectId(userId),
-          updatedAt: { $gte: formatFrom, $lt: formatTo },
+          updatedAt: { $gte: formatedDates.formatFrom, $lt: formatedDates.formatTo },
         },
       },
 
