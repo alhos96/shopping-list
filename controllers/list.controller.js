@@ -154,13 +154,10 @@ const createReport = async (req, res, next) => {
       { $replaceRoot: { newRoot: "$_id" } },
     ]);
 
-    if (shoppingList.length === 0) {
-      // send results with costum message
-      res.status(200).json({ fromDate, toDate, shoppingList, message: errorMessages.noLists });
-    } else {
-      // send results with entered date range
-      res.status(200).json({ fromDate, toDate, shoppingList, message: successMessages.listsFound });
-    }
+    // send results with costum message depending on lists found
+    res
+      .status(200)
+      .json({ fromDate, toDate, shoppingList, message: shoppingList.length === 0 ? errorMessages.noLists : successMessages.listsFound });
   } catch (err) {
     let error = handleError(res, 500, errorMessages.horribleError);
 
